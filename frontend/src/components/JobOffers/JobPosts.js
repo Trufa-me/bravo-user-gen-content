@@ -11,6 +11,7 @@ import {
 } from "@stepstone/components-react";
 import { StarEmptySm } from "@stepstone/icon-components";
 import styled from "@stepstone/dresscode-react";
+import jobOfferService from "../../services/jobOfferService";
 
 export default class JobPosts extends Component {
   constructor(props) {
@@ -19,10 +20,10 @@ export default class JobPosts extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get("/v1/jobs/60?user=5ddfb1fefb3bab58b91df871&topJobs=0")
+    jobOfferService
+      .search()
       .then(response => {
-        this.setState({ jobposts: response.data.jobs });
+        this.setState({ jobposts: response.data });
       })
       .catch(function(error) {
         console.log(error);
@@ -33,7 +34,8 @@ export default class JobPosts extends Component {
     // To access the theme it is necessary
     // to call a function and pass it via props as argument
     const JobCard = styled(Card)`
-      width: 29%;
+      min-width: 300px;
+      width: 100%;
       justify-content: space-between;
       padding: ${props => props.theme.spacings.spacingXS};
       margin: ${props => props.theme.spacings.spacingXXS};
@@ -42,10 +44,6 @@ export default class JobPosts extends Component {
 
       &:hover {
         box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.5);
-      }
-
-      @media (max-width: ${props => props.theme.breakpoints.screenMMin}) {
-        width: 100%;
       }
     `;
 
@@ -128,27 +126,17 @@ export default class JobPosts extends Component {
     `;
 
     const ApplyButton = styled(ButtonPrimary)`
-      display: none;
-      background-color: ${props => props.theme.colors.accent};
-      color: ${props => props.theme.colors.white};
       flex-grow: 1;
 
-      @media (max-width: ${props => props.theme.breakpoints.screenMMin}) {
-        display: inline-block;
-        margin: 0 ${props => props.theme.spacings.spacingS};
-      }
+      display: inline-block;
+      margin: 0 ${props => props.theme.spacings.spacingS};
 
-      &:hover {
-        background-color: ${props => props.theme.colors.accent};
-        color: ${props => props.theme.colors.white};
-      }
+      background-color: ${props => props.theme.colors.accent};
+      color: ${props => props.theme.colors.white};
     `;
 
     const ShareButton = styled(ButtonStyled)`
-      display: none;
-      @media (max-width: ${props => props.theme.breakpoints.screenMMin}) {
-        display: inline-block;
-      }
+      display: inline-block;
     `;
 
     return this.state.jobposts.map(function(currentJobpost, i) {
@@ -175,7 +163,6 @@ export default class JobPosts extends Component {
             </Metadata>
             <CallToActions>
               <ShareButton>
-                <IconStyled />
                 <span> Share</span>
               </ShareButton>
               <ApplyButton>Apply</ApplyButton>
@@ -195,17 +182,9 @@ export default class JobPosts extends Component {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      margin: auto;
     `;
 
-    const Title = styled.h3`
-      width: 100%;
-    `;
-
-    return (
-      <List>
-        <Title>JobPosts List</Title>
-        {this.jobPostsList()}
-      </List>
-    );
+    return <List>{this.jobPostsList()}</List>;
   }
 }

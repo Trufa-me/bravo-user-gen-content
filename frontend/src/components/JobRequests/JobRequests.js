@@ -34,7 +34,6 @@ export default class JobRequests extends Component {
 
     return (
       <List>
-        <Title>Job Requests</Title>
         {this.state.jobRequests.map((jobRequest, i) => (
           <JobRequestCard {...jobRequest} />
         ))}

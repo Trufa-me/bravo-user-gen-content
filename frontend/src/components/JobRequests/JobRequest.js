@@ -11,6 +11,7 @@ import {
 } from "@stepstone/components-react";
 import { StarEmptySm } from "@stepstone/icon-components";
 import React, { useState } from "react";
+import JobPosts from "../JobOffers/JobPosts";
 
 export const JobRequestCard = ({
   id,
@@ -26,7 +27,6 @@ export const JobRequestCard = ({
   // To access the theme it is necessary
   // to call a function and pass it via props as argument
   const JobCard = styled(Card)`
-    width: 29%;
     justify-content: space-between;
     padding: ${props => props.theme.spacings.spacingXS};
     margin: ${props => props.theme.spacings.spacingXXS};
@@ -36,10 +36,7 @@ export const JobRequestCard = ({
     &:hover {
       box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.5);
     }
-
-    @media (max-width: ${props => props.theme.breakpoints.screenMMin}) {
       width: 100%;
-    }
   `;
 
   // It is possible to pass the them invoking a function
@@ -114,6 +111,10 @@ export const JobRequestCard = ({
     margin-bottom: 10px;
   `;
 
+  const ModalCard = styled(Card)`
+  width: 100%;
+  `
+
   return (
     <JobCard key={id}>
       <CardBody>
@@ -146,17 +147,12 @@ export const JobRequestCard = ({
           setShowSimilarJobs(false);
         }}
       >
-        <Card>
+        <ModalCard>
           <CardBody>
             <h2>Similar jobs</h2>
-            <iframe
-              is="x-frame-bypass"
-              src={`https://www.totaljobs.com/jobs/${title}/in-${location}?radius=20`}
-              height="500px"
-              width="100%"
-            />
+              <JobPosts />
           </CardBody>
-        </Card>
+        </ModalCard>
       </Modal>
     </JobCard>
   );

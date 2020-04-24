@@ -33,7 +33,6 @@ function App() {
         <div
           style={{
             margin: "20px auto",
-            maxWidth: "900px",
             backgroundColor: "#f4f4f4"
           }}
         >
